@@ -11,15 +11,15 @@ aleatorios2 = aleatorios1.copy()
 status = [0 for _ in range(fila1.capacidade + 1)]
 
 
-def acumula_tempo(ev):
+def acumula_tempo(ev, fila):
     global tempo
     delta_t = ev['tempo'] - tempo
     tempo = ev['tempo']
-    status[fila1.status] += delta_t
+    status[fila.status] += delta_t
 
 
 def chegada(ev, fila, aleatorios1=aleatorios1):
-    acumula_tempo(ev)
+    acumula_tempo(ev, fila)
     if fila.status < fila.capacidade:
         fila.chegada()
         if fila.status <= fila.servidores:
@@ -30,7 +30,7 @@ def chegada(ev, fila, aleatorios1=aleatorios1):
 
 
 def saida(ev, fila, aleatorios1=aleatorios1):
-    acumula_tempo(ev)
+    acumula_tempo(ev, fila)
     fila.saida()
     if fila.status >= fila.servidores:
         escalonador.agenda({'tipo': 'saida', 'tempo': (fila.gera_saida(aleatorios1.pop(0))) + tempo})
@@ -52,6 +52,9 @@ print('Perdas:', fila1.perdas)
 print("\n\n\n")
 
 print("Fila 2 (G/G/2/5):")
+status.clear()
+status = [0 for _ in range(fila2.capacidade + 1)]
+tempo = 0
 escalonador = Escalonador()
 escalonador.agenda({'tipo': 'chegada', 'tempo': 2})
 while len(aleatorios2) > 0:
