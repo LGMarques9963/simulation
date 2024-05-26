@@ -61,7 +61,7 @@ def saida_tandem(ev, aleatorios, fila1, fila2):
 
 
 def passagem(ev, aleatorios, fila1, fila2):
-    acumula_tempo(ev, fila1, fila2)
+    acumula_tempo_tandem(ev, fila1, fila2)
     fila1.saida()
     if fila1.status >= fila1.servidores:
         escalonador.agenda({'tipo': 'passagem', 'tempo': (fila1.gera_saida(aleatorios.pop(0))) + tempo})
